@@ -11,3 +11,13 @@ vlans:
     poolType: Generic
     isWirelessPool: False
 {% endfor %}
+
+
+# ----------------------------
+# MAC Addresses
+# ----------------------------
+devices:
+{% for device in data.mac_addresses %}
+  - name: {{ device.device_name }}
+    macAddress: {{ device.mac_address }}
+{% endfor %}

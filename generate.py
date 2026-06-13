@@ -13,27 +13,32 @@ from jinja2 import Environment, FileSystemLoader
 # -----------------------------
 def load_excel(file_path):
     """
-    Reads Excel and returns structured data.
+    Reads Excel and returns structured data for all sheets.
     """
-    df = pd.read_excel(file_path, sheet_name="vlans")
 
-    # Convert dataframe to list of dictionaries
-    return df.to_dict(orient="records")
+    # VLAN sheet (already exists)
+    vlans_df = pd.read_excel(file_path, sheet_name="vlans")
 
+    # New MAC Address sheet
+    mac_df = pd.read_excel(file_path, sheet_name="mac_addresses")
+
+    return {
+        "vlans": vlans_df.to_dict(orient="records"),
+        "mac_addresses": mac_df.to_dict(orient="records"),
+    }
 
 # -----------------------------
 # Step 2: Generate YAML
 # -----------------------------
-def generate_yaml(vlans, template_path, output_path):
+def generate_yaml(data, template_path, output_path):
     """
     Uses Jinja2 template to generate YAML.
     """
     env = Environment(loader=FileSystemLoader("templates"))
     template = env.get_template(template_path)
 
-    rendered_yaml = template.render(vlans=vlans)
+    rendered_yaml = template.render(data=data)
 
-    # Write output file
     with open(output_path, "w") as f:
         f.write(rendered_yaml)
 
@@ -46,12 +51,13 @@ def main():
     output_file = "output/generated.yml"
 
     print("Loading Excel...")
-    vlans = load_excel(input_file)
-
-    print(f"Loaded {len(vlans)} VLAN entries")
+    data = load_excel(input_file)
+    print (data)
+    print(f"Loaded {len(data['vlans'])} VLAN entries")
+    print(f"Loaded {len(data['mac_addresses'])} MAC entries")
 
     print("Generating YAML...")
-    generate_yaml(vlans, "template.j2", output_file)
+    generate_yaml(data, "template.j2", output_file)
 
     print(f"✅ YAML generated: {output_file}")
 
