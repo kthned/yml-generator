@@ -1,0 +1,13 @@
+# Generated YAML - DO NOT EDIT MANUALLY
+
+vlans:
+{% for vlan in vlans %}
+  - vlanId: {{ vlan.vlan_id }}
+    vlanName: {{ vlan.vlan_name }}
+    ipv4Subnet: {{ vlan.subnet }}
+    ipv4GateWay: {{ vlan.gateway }}
+
+    trafficType: Data
+    poolType: Generic
+    isWirelessPool: False
+{% endfor %}

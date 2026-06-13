@@ -1,0 +1,24 @@
+# Environment files
+.env
+*.env
+
+# Certificates & keys
+*.pem
+*.key
+*.crt
+*.p12
+
+# Secret files
+secrets.yml
+credentials.yml
+password.txt
+
+# MacOS
+.DS_Store
+# VSCode
+.vscode/
+
+#atea SDA
+*generic_dnacertersdk_function_*
+*output*
+*.yml
