@@ -1,16 +1,5 @@
 # Generated YAML - DO NOT EDIT MANUALLY
 
-vlans:
-{% for vlan in vlans %}
-  - vlanId: {{ vlan.vlan_id }}
-    vlanName: {{ vlan.vlan_name }}
-    ipv4Subnet: {{ vlan.subnet }}
-    ipv4GateWay: {{ vlan.gateway }}
-
-    trafficType: Data
-    poolType: Generic
-    isWirelessPool: False
-{% endfor %}
 
 
 # ----------------------------
@@ -21,3 +10,23 @@ devices:
   - name: {{ device.device_name }}
     macAddress: {{ device.mac_address }}
 {% endfor %}
+
+vlans:
+{% for vlan in data.vlans %}
+  - vlanId: {{ vlan.vlan_id }}
+    vlanName: {{ vlan.vlan_name }}
+    ipv4Subnet: {{ vlan.subnet }}
+    ipv4GateWay: {{ vlan.gateway }}
+
+    trafficType: Data
+    poolType: Generic
+    isWirelessPool: False
+{% endfor %}
+
+# ----------------------------
+# SITE INFO
+# ----------------------------
+site:
+  name: {{ data.site_info.site_name }}
+  id: {{ data.site_info.site_id }}
+  layer3Handoff: {{ data.site_info.l3_handoff }}
